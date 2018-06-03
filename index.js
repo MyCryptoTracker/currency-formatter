@@ -63,7 +63,7 @@ function format(value, options) {
                             localeFormats[language] || {},
                             localeFormats[language + '-' + region] || {})
   var currency = assign({}, defaultCurrency, findCurrency(code), localeFormat)
-  
+
   var symbolOnLeft = currency.symbolOnLeft
   var spaceBetweenAmountAndSymbol = currency.spaceBetweenAmountAndSymbol
 
@@ -110,6 +110,11 @@ function unformat(value, options) {
   return accounting.unformat(value, decimal)
 }
 
+function add(currencyCode, options) {
+  var baseCurrency = findCurrency(currencyCode) || defaultCurrency;
+  currencies[currencyCode] = Object.assign(baseCurrency, options);
+}
+
 module.exports = {
   defaultCurrency: defaultCurrency,
   get currencies() {
@@ -120,5 +125,6 @@ module.exports = {
   },
   findCurrency: findCurrency,
   format: format,
-  unformat: unformat
+  unformat: unformat,
+  add: add
 }
